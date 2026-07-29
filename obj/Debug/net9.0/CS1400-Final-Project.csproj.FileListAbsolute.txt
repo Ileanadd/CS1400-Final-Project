@@ -1,0 +1,15 @@
+/Users/ileanagonzalez/Desktop/CS1400/CS1400-Final-Project/bin/Debug/net9.0/CS1400-Final-Project
+/Users/ileanagonzalez/Desktop/CS1400/CS1400-Final-Project/bin/Debug/net9.0/CS1400-Final-Project.deps.json
+/Users/ileanagonzalez/Desktop/CS1400/CS1400-Final-Project/bin/Debug/net9.0/CS1400-Final-Project.runtimeconfig.json
+/Users/ileanagonzalez/Desktop/CS1400/CS1400-Final-Project/bin/Debug/net9.0/CS1400-Final-Project.dll
+/Users/ileanagonzalez/Desktop/CS1400/CS1400-Final-Project/bin/Debug/net9.0/CS1400-Final-Project.pdb
+/Users/ileanagonzalez/Desktop/CS1400/CS1400-Final-Project/obj/Debug/net9.0/CS1400-Final-Project.GeneratedMSBuildEditorConfig.editorconfig
+/Users/ileanagonzalez/Desktop/CS1400/CS1400-Final-Project/obj/Debug/net9.0/CS1400-Final-Project.AssemblyInfoInputs.cache
+/Users/ileanagonzalez/Desktop/CS1400/CS1400-Final-Project/obj/Debug/net9.0/CS1400-Final-Project.AssemblyInfo.cs
+/Users/ileanagonzalez/Desktop/CS1400/CS1400-Final-Project/obj/Debug/net9.0/CS1400-Final-Project.csproj.CoreCompileInputs.cache
+/Users/ileanagonzalez/Desktop/CS1400/CS1400-Final-Project/obj/Debug/net9.0/CS1400-Final-Project.sourcelink.json
+/Users/ileanagonzalez/Desktop/CS1400/CS1400-Final-Project/obj/Debug/net9.0/CS1400-Final-Project.dll
+/Users/ileanagonzalez/Desktop/CS1400/CS1400-Final-Project/obj/Debug/net9.0/refint/CS1400-Final-Project.dll
+/Users/ileanagonzalez/Desktop/CS1400/CS1400-Final-Project/obj/Debug/net9.0/CS1400-Final-Project.pdb
+/Users/ileanagonzalez/Desktop/CS1400/CS1400-Final-Project/obj/Debug/net9.0/CS1400-Final-Project.genruntimeconfig.cache
+/Users/ileanagonzalez/Desktop/CS1400/CS1400-Final-Project/obj/Debug/net9.0/ref/CS1400-Final-Project.dll

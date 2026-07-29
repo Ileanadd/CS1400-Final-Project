@@ -1,0 +1,2 @@
+Income, Paycheck, 2000, 7/29/2026 4:10:04 PM
+Expense, Gas, 35, 7/29/2026 4:10:20 PM

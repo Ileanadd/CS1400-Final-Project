@@ -30,12 +30,13 @@ class Project
             Console.WriteLine("8. Save Transactions");
             Console.WriteLine("9. Exit\n");
 
-            Console.Write("Choice: ");
-            choice = Convert.ToInt32(Console.ReadLine());
+            choice = GetValidIntegrer("Choice: ");
 
-            if (choice < 1 || choice > 9)
+            while (choice < 1 || choice > 9)
             {
-                Console.WriteLine("Choose an option from the menu.");
+                Console.WriteLine("Please choose an option from the menu.\n");
+                choice = GetValidIntegrer("Choice: ");
+
             }
 
             Console.WriteLine();
@@ -83,8 +84,7 @@ class Project
     }
     static void AddIncome(ref decimal balance, List<Transaction> transactions)
     {
-        Console.Write("Enter income amount: $");
-        decimal income = Convert.ToDecimal(Console.ReadLine());
+        decimal income = GetValidAmount("Enter income amount: $");
 
         Console.Write("Enter a description: ");
         string description = Console.ReadLine()!;
@@ -104,8 +104,7 @@ class Project
 
     static void AddExpense(ref decimal balance, List<Transaction> transactions)
     {
-        Console.Write("Enter expense amount: $");
-        decimal expense = Convert.ToDecimal(Console.ReadLine());
+        decimal expense = GetValidAmount("Enter expense amount: $");
 
         Console.Write("Description: ");
         string description = Console.ReadLine()!;
@@ -155,7 +154,7 @@ class Project
 
         foreach (Transaction transaction in transactions)
         {
-            file.WriteLine($"{transaction.Type}, {transaction.Description}, {transaction.Amount}, {transaction.Date}");
+            file.WriteLine($"{transaction.Type},{transaction.Description},{transaction.Amount},{transaction.Date}");
         }
 
         file.Close();
@@ -180,10 +179,10 @@ class Project
 
             Transaction transaction = new Transaction();
 
-            transaction.Type = parts[0];
-            transaction.Description = parts[1];
-            transaction.Amount = Convert.ToDecimal(parts[2]);
-            transaction.Date = Convert.ToDateTime(parts[3]);
+            transaction.Type = parts[0].Trim();
+            transaction.Description = parts[1].Trim();
+            transaction.Amount = Convert.ToDecimal(parts[2].Trim());
+            transaction.Date = Convert.ToDateTime(parts[3].Trim());
 
             transactions.Add(transaction);
 
@@ -201,11 +200,13 @@ class Project
 
     static void MonthlyReport(List<Transaction> transactions)
     {
-        Console.Write("Enter wished month number for the report (1-12): ");
-        int month = Convert.ToInt32(Console.ReadLine());
-
-        Console.Write("Enter year: ");
-        int year = Convert.ToInt32(Console.ReadLine());
+        int month = GetValidIntegrer("Enter wished month numebr for the report (1-12): ");
+        while (month < 1 || month > 12)
+        {
+            Console.WriteLine("Please enter a valid month.\n");
+            month = GetValidIntegrer("Enter wished month numebr for the report (1-12): ");
+        }
+        int year = GetValidIntegrer("Enter year: ");
 
         decimal totalIncome = 0;
         decimal totalExpense = 0;
@@ -230,10 +231,10 @@ class Project
         decimal monthBalance = totalIncome - totalExpense;
 
         Console.WriteLine($"\n=== Montlhy Report for {month}/{year} ===");
-        Console.WriteLine($"Total Income: ${totalIncome:F2}");
-        Console.WriteLine($"Total Expenses: ${totalExpense:F2}");
-        Console.WriteLine($"Monthly Balance: ${monthBalance:F2}");
-        Console.WriteLine($"Transactions: {transactionCount}");
+        Console.WriteLine($"{"Total Income:",-18} ${totalIncome:F2}");
+        Console.WriteLine($"{"Total Expenses:",-18} ${totalExpense:F2}");
+        Console.WriteLine($"{"Monthly Balance:",-18} ${monthBalance:F2}");
+        Console.WriteLine($"{"Transactions:",-18} {transactionCount}");
         Console.WriteLine("==================================");
     }
 
@@ -275,7 +276,7 @@ class Project
 
         for (int i = 0; i < transactions.Count; i++)
         {
-            Console.WriteLine($"{i + 1}. {transactions[i].Type} - {transactions[i].Description} - {transactions[i].Amount:F2}");
+            Console.WriteLine($"{i + 1}. {transactions[i].Type,-8} {transactions[i].Description,-20} {transactions[i].Amount:F2}");
         }
 
         Console.Write("\nEnter the transaction number to delete: ");
@@ -304,5 +305,45 @@ class Project
         {
             Console.WriteLine("Invalid transaction number.");
         }
+    }
+
+    static int GetValidIntegrer(string message)
+    {
+        int number;
+
+        Console.Write(message);
+
+        while (!int.TryParse(Console.ReadLine(), out number))
+        {
+            Console.WriteLine("Invalid input. Please enter a valid integrer.\n");
+            Console.Write(message);
+        }
+        return number;
+    }
+
+    static decimal GetValidAmount(string message)
+    {
+        decimal amount;
+
+        Console.Write(message);
+
+        while (true)
+        {
+            if (!decimal.TryParse(Console.ReadLine(), out amount))
+            {
+                Console.WriteLine("Invalid input. Please enter a valid amount.\n");
+                Console.Write(message);
+            }
+            else if (amount <= 0)
+            {
+                Console.WriteLine("Amount must be greater than 0.\n");
+                Console.Write(message);
+            }
+            else
+            {
+                break;
+            }
+        }
+        return amount;
     }
 }

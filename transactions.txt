@@ -1,2 +1,6 @@
-Income, Paycheck, 2000, 7/29/2026 4:10:04 PM
-Expense, Gas, 35, 7/29/2026 4:10:20 PM
+Income,           Paycheck, 2000, 7/29/2026 4:10:04 PM
+Expense,           Gas, 35, 7/29/2026 4:10:20 PM
+Income,          Paycheck, 120, 7/29/2026 4:32:27 PM
+Expense,        Groceries, 145, 7/29/2026 5:06:30 PM
+Expense,    Gas, 20, 7/29/2026 5:34:34 PM
+Expense,   Groceries Walmart, 48, 7/29/2026 6:37:34 PM

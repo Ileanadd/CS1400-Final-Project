@@ -4,10 +4,7 @@
 // search or delete transactions, generate monthly reports and save transaction information to a text file.   
 
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Diagnostics;
-
 class Project
 {
     static void Main()

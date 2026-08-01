@@ -1,0 +1,2 @@
+Income,Paycheck,1200,7/31/2026 6:33:46 PM
+Expense,Gas,38,7/31/2026 6:33:54 PM

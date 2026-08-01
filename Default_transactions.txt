@@ -5,3 +5,4 @@ Expense,Groceries,145,7/29/2026 5:06:30 PM
 Expense,Groceries Walmart,48,7/29/2026 6:37:34 PM
 Income,Paycheck,250,7/29/2026 9:35:45 PM
 Expense,Starbucks,9.8,7/29/2026 9:36:59 PM
+Income,Paycheck,200,7/31/2026 6:26:40 PM

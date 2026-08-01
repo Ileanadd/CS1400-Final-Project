@@ -1,0 +1,4 @@
+Income,Paycheck,80000,7/31/2026 6:35:27 PM
+Expense,Groceries,26.8,7/31/2026 6:35:49 PM
+Income,Paycheck,280,7/31/2026 6:39:22 PM
+Expense,Gas,113,7/31/2026 6:39:36 PM

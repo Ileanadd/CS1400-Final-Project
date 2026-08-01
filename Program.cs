@@ -1,20 +1,34 @@
-﻿// Final Project
-// Budget tracker
+﻿// Final Project - Budget Tracker
+// Ileana Gonzalez, 07/31/2026
+// This program allows the user to record input and expenses, view their balance and transaction history,
+// search or delete transactions, generate monthly reports and save transaction information to a text file.   
 
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Diagnostics;
 
 class Project
 {
     static void Main()
     {
+        // Runs automatic tests cases before starting the program
+        RunTests();
+
         int choice;
         decimal balance = 0;
 
-        List<Transaction> transactions = new List<Transaction>();
-        LoadTransactions(transactions, ref balance);
+        Console.Clear();
+        Console.Write("Welcome!\nTo acces your budget tracker, please enter your name: ");
+        string userName = Console.ReadLine()!;
 
+        string fileName = userName + "_transactions.txt";
+
+        // Load saved transactions for selected user
+        List<Transaction> transactions = new List<Transaction>();
+        LoadTransactions(transactions, ref balance, fileName);
+
+        // Keeps showing the menu until the user chooses exit
         do
         {
             Console.Clear();
@@ -32,6 +46,7 @@ class Project
 
             choice = GetValidIntegrer("Choice: ");
 
+            // Only allows a choice from the menu
             while (choice < 1 || choice > 9)
             {
                 Console.WriteLine("Please choose an option from the menu.\n");
@@ -65,10 +80,10 @@ class Project
                     MonthlyReport(transactions);
                     break;
                 case 8:
-                    SaveTransactions(transactions);
+                    SaveTransactions(transactions, fileName);
                     break;
                 case 9:
-                    SaveTransactions(transactions);
+                    SaveTransactions(transactions, fileName);
                     Console.WriteLine();
                     Console.WriteLine("Session Ended.");
                     break;
@@ -82,6 +97,8 @@ class Project
 
         } while (choice != 9);
     }
+
+    // Adds a new income transaction and updates the current balance
     static void AddIncome(ref decimal balance, List<Transaction> transactions)
     {
         decimal income = GetValidAmount("Enter income amount: $");
@@ -96,12 +113,14 @@ class Project
         newTransaction.Amount = income;
         newTransaction.Date = DateTime.Now;
 
+        // Creates a new transaction and stores it on the list
         transactions.Add(newTransaction);
 
         balance += income;
         Console.WriteLine($"\nIncome of ${income:F2} added succesfully.");
     }
 
+    // Adds a new expense transaction and substracts it from the balance
     static void AddExpense(ref decimal balance, List<Transaction> transactions)
     {
         decimal expense = GetValidAmount("Enter expense amount: $");
@@ -122,11 +141,13 @@ class Project
         Console.WriteLine($"\nExpense of ${expense:F2} recorded succesfully.");
     }
 
+    // Displays user's current balance
     static void ViewBalance(decimal balance)
     {
-        Console.WriteLine($"Current balance: ${balance}");
+        Console.WriteLine($"Current balance: ${balance:F2}");
     }
 
+    // Displays all transactions stored on the list
     static void ViewTransactions(List<Transaction> transactions)
     {
         Console.WriteLine("Transaction history: \n");
@@ -142,15 +163,16 @@ class Project
                 Console.WriteLine("--------------------------");
                 Console.WriteLine($"Type: {transaction.Type}");
                 Console.WriteLine($"Description: {transaction.Description}");
-                Console.WriteLine($"Amount: ${transaction.Amount}");
+                Console.WriteLine($"Amount: ${transaction.Amount:F2}");
                 Console.WriteLine($"Date: {transaction.Date}");
             }
         }
     }
 
-    static void SaveTransactions(List<Transaction> transactions)
+    // Saves all transactions from the list on the users text file
+    static void SaveTransactions(List<Transaction> transactions, string fileName)
     {
-        StreamWriter file = new StreamWriter("transactions.txt");
+        StreamWriter file = new StreamWriter(fileName);
 
         foreach (Transaction transaction in transactions)
         {
@@ -162,19 +184,21 @@ class Project
         Console.WriteLine("Transactions saved succesfully.");
     }
 
-    static void LoadTransactions(List<Transaction> transactions, ref decimal balance)
+    // Loads saved transactions from the file and recalculates the balance for specific user
+    static void LoadTransactions(List<Transaction> transactions, ref decimal balance, string fileName)
     {
-        if (!File.Exists("transactions.txt"))
+        if (!File.Exists(fileName))
         {
             return;
         }
 
-        StreamReader file = new StreamReader("transactions.txt");
+        StreamReader file = new StreamReader(fileName);
 
         while (!file.EndOfStream)
         {
             string line = file.ReadLine()!;
 
+            // Separates each saved line into the transaction properties
             string[] parts = line.Split(',');
 
             Transaction transaction = new Transaction();
@@ -186,6 +210,7 @@ class Project
 
             transactions.Add(transaction);
 
+            // Adds income or substract expenses when rebuilding the balance
             if (transaction.Type == "Income")
             {
                 balance += transaction.Amount;
@@ -198,10 +223,11 @@ class Project
         file.Close();
     }
 
+    // Calculates income, expenses and balnce for a selected month and year
     static void MonthlyReport(List<Transaction> transactions)
     {
         int month = GetValidIntegrer("Enter wished month numebr for the report (1-12): ");
-        while (month < 1 || month > 12)
+        while (!IsValidMonth(month))
         {
             Console.WriteLine("Please enter a valid month.\n");
             month = GetValidIntegrer("Enter wished month numebr for the report (1-12): ");
@@ -214,6 +240,7 @@ class Project
 
         foreach (Transaction transaction in transactions)
         {
+            // Only includes transactions from the selected month and year
             if (transaction.Date.Month == month && transaction.Date.Year == year)
             {
                 transactionCount++;
@@ -228,7 +255,7 @@ class Project
                 }
             }
         }
-        decimal monthBalance = totalIncome - totalExpense;
+        decimal monthBalance = CalculateBalance(totalIncome, totalExpense);
 
         Console.WriteLine($"\n=== Montlhy Report for {month}/{year} ===");
         Console.WriteLine($"{"Total Income:",-18} ${totalIncome:F2}");
@@ -238,6 +265,7 @@ class Project
         Console.WriteLine("==================================");
     }
 
+    // Searches transaction descriptions asking for input from the user
     static void SearchTransactions(List<Transaction> transactions)
     {
         Console.Write("Enter a description to look for: ");
@@ -264,6 +292,7 @@ class Project
         }
     }
 
+    // Deletes a selected transactions and updates the current balance
     static void DeleteTransaction(List<Transaction> transactions, ref decimal balance)
     {
         if (transactions.Count == 0)
@@ -282,6 +311,7 @@ class Project
         Console.Write("\nEnter the transaction number to delete: ");
         int transactionNumber = Convert.ToInt32(Console.ReadLine());
 
+        // Converts the displayed transaction number to its list index
         int index = transactionNumber - 1;
 
         if (index >= 0 && index < transactions.Count)
@@ -307,6 +337,7 @@ class Project
         }
     }
 
+    // Gets and validates an integrer entered by the user, prevents invalid input and crashing of the program
     static int GetValidIntegrer(string message)
     {
         int number;
@@ -321,6 +352,7 @@ class Project
         return number;
     }
 
+    // Gets a positive decimal amount and prevents invalid input
     static decimal GetValidAmount(string message)
     {
         decimal amount;
@@ -345,5 +377,31 @@ class Project
             }
         }
         return amount;
+    }
+
+    // Runs automatic test for methods used in the budget tracker
+    static void RunTests()
+    {
+        Debug.Assert(CalculateBalance(1000m, 250m) == 750);
+        Debug.Assert(CalculateBalance(500m, 0m) == 500m);
+
+        Debug.Assert(IsValidMonth(1) == true);
+        Debug.Assert(IsValidMonth(12) == true);
+        Debug.Assert(IsValidMonth(0) == false);
+        Debug.Assert(IsValidMonth(13) == false);
+
+        Console.WriteLine("Automatic tests completed succesfully.");
+    }
+
+    // Calculates the remaining balance using income and expenses
+    static decimal CalculateBalance(decimal income, decimal expenses)
+    {
+        return income - expenses;
+    }
+
+    // Checks wether a month number is between 1 and 12
+    static bool IsValidMonth(int month)
+    {
+        return month >= 1 && month <= 12;
     }
 }
